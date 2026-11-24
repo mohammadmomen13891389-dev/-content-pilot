@@ -110,7 +110,6 @@
             border-radius: 10px;
             margin-bottom: 15px;
             border-right: 4px solid var(--primary);
-            position: relative;
             transition: all 0.4s ease;
         }
 
@@ -118,9 +117,6 @@
         .result-box p { text-align: right; color: var(--text-color); margin: 0; font-size: 16px; line-height: 1.5; }
         
         .copy-btn {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
             background: var(--box-bg);
             color: var(--text-color);
             border: none;
@@ -129,6 +125,8 @@
             font-size: 12px;
             cursor: pointer;
             opacity: 0.7;
+            margin-top: 10px; 
+            display: inline-block;
         }
 
         .copy-btn:hover { opacity: 1; background: var(--primary); color: white; }
