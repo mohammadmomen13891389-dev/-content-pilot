@@ -2,104 +2,215 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>بازی نجار ماهر</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دستیار محتوا</title>
     <style>
+        :root {
+            --bg-color: linear-gradient(135deg, #1a1a2e, #16213e);
+            --box-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --input-bg: #0f3460;
+            --primary: #e94560;
+            --primary-hover: #c73650;
+            --accent: #fdcb6e;
+        }
+
+        body.light-mode {
+            --bg-color: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            --box-bg: rgba(255, 255, 255, 0.6);
+            --text-color: #1a1a2e;
+            --input-bg: #ffffff;
+            --primary: #0984e3;
+            --primary-hover: #74b9ff;
+            --accent: #d63031;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #2c3e50; color: white; font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        h1 { color: #f39c12; margin-bottom: 10px; font-size: 24px; }
-        .stats { display: flex; gap: 20px; font-size: 18px; margin-bottom: 20px; }
-        .game-area { position: relative; width: 120px; height: 400px; background-color: #8e6d57; border: 5px solid #5c4033; border-radius: 10px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .target-zone { position: absolute; width: 100%; height: 60px; background-color: rgba(46, 204, 113, 0.7); top: 170px; border-top: 2px dashed #fff; border-bottom: 2px dashed #fff; }
-        .saw-blade { position: absolute; width: 110%; height: 12px; background-color: #bdc3c7; left: -5%; box-shadow: 0 0 10px #fff; transition: top 0.05s linear; border-radius: 2px; }
-        .saw-teeth { position: absolute; width: 100%; height: 4px; background-color: #7f8c8d; bottom: 0; }
-        button { padding: 15px 40px; font-size: 22px; font-weight: bold; background-color: #e74c3c; color: white; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-family: Arial; }
-        button:active { transform: scale(0.95); background-color: #c0392b; }
-        #message { margin-top: 20px; font-size: 20px; font-weight: bold; height: 30px; text-align: center; }
+        
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: all 0.4s ease;
+        }
+
+        .header-bar {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .theme-btn {
+            background: var(--box-bg);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .theme-btn:active { transform: scale(0.9); }
+
+        .container {
+            background: var(--box-bg);
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+        }
+
+        h1 { color: var(--primary); text-align: center; margin-bottom: 10px; font-size: 24px; }
+        p { text-align: center; color: var(--text-color); opacity: 0.7; margin-bottom: 20px; font-size: 14px; }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 16px;
+            margin-bottom: 15px;
+            outline: none;
+            background: var(--input-bg);
+            color: var(--text-color);
+            transition: all 0.4s ease;
+        }
+
+        button.main-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        button.main-btn:hover { background: var(--primary-hover); }
+        
+        .result-box {
+            background: var(--input-bg);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-right: 4px solid var(--primary);
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .result-box h3 { color: var(--accent); font-size: 14px; margin-bottom: 8px; }
+        .result-box p { text-align: right; color: var(--text-color); margin: 0; font-size: 16px; line-height: 1.5; }
+        
+        .copy-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: var(--box-bg);
+            color: var(--text-color);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .copy-btn:hover { opacity: 1; background: var(--primary); color: white; }
+
+        #loading { display: none; text-align: center; color: var(--accent); margin-bottom: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <h1>🪚 بازی نجار ماهر 🪵</h1>
-    <div class="stats">
-        <span>امتیاز: <span id="score" style="color:#2ecc71;">0</span></span>
-        <span>جون: <span id="lives" style="color:#e74c3c;">3</span></span>
+    <div class="header-bar">
+        <span style="font-weight:bold; font-size:14px; color:var(--text-color);">Content Pilot</span>
+        <button class="theme-btn" onclick="toggleTheme()" id="themeIcon">🌙</button>
     </div>
-    <div class="game-area">
-        <div class="target-zone" id="targetZone"></div>
-        <div class="saw-blade" id="sawBlade" style="top: 0px;">
-            <div class="saw-teeth"></div>
+
+    <div class="container">
+        <h1>🚀 دستیار محتوا</h1>
+        <p>موضوعت رو بنویس تا برات ایده بسازم!</p>
+        
+        <input type="text" id="topicInput" placeholder="مثلاً: انتخاب رشته">
+        <button class="main-btn" onclick="generateContent()">ایده بساز!</button>
+        <div id="loading">⏳ در حال ساخت ایده...</div>
+
+        <div class="result-box" style="display:none;" id="titleBox">
+            <h3>💡 تیتر جذاب:</h3>
+            <p id="titleResult"></p>
+            <button class="copy-btn" onclick="copyText('titleResult')">کپی 📋</button>
+        </div>
+
+        <div class="result-box" style="display:none;" id="hookBox">
+            <h3>🎣 قلاب (Hook):</h3>
+            <p id="hookResult"></p>
+            <button class="copy-btn" onclick="copyText('hookResult')">کپی 📋</button>
+        </div>
+
+        <div class="result-box" style="display:none;" id="captionBox">
+            <h3>📝 کپشن و هشتگ:</h3>
+            <p id="captionResult"></p>
+            <button class="copy-btn" onclick="copyText('captionResult')">کپی 📋</button>
         </div>
     </div>
-    <button id="cutBtn" onclick="cutWood()">اره بزن!</button>
-    <div id="message"></div>
 
     <script>
-        let sawPos = 0; 
-        let speed = 5; 
-        let direction = 1; 
-        let score = 0; 
-        let lives = 3; 
-        let isPlaying = true; 
-        let animationId;
-        
-        const sawBlade = document.getElementById("sawBlade"); 
-        const targetZone = document.getElementById("targetZone"); 
-        const scoreEl = document.getElementById("score"); 
-        const livesEl = document.getElementById("lives"); 
-        const messageEl = document.getElementById("message");
-        const cutBtn = document.getElementById("cutBtn");
-        
-        const gameAreaHeight = 400; 
-        const bladeHeight = 12; 
-        let targetTop = 170; 
-        let targetBottom = 230;
-
-        function moveSaw() {
-            if (!isPlaying) return;
-            
-            sawPos += speed * direction;
-            
-            if (sawPos >= gameAreaHeight - bladeHeight || sawPos <= 0) { 
-                direction *= -1; 
-            }
-            
-            sawBlade.style.top = sawPos + "px";
-            animationId = requestAnimationFrame(moveSaw);
-        }
-
-        function cutWood() {
-            if (!isPlaying) return;
-            
-            if (sawPos >= targetTop && sawPos <= targetBottom) {
-                score++; 
-                scoreEl.textContent = score; 
-                messageEl.textContent = "✅ برش عالی!"; 
-                messageEl.style.color = "#2ecc71"; 
-                speed += 0.5; 
-                
-                targetTop = Math.floor(Math.random() * 250) + 50; 
-                targetBottom = targetTop + 60;
-                targetZone.style.top = targetTop + "px";
+        function toggleTheme() {
+            document.body.classList.toggle("light-mode");
+            const icon = document.getElementById("themeIcon");
+            if (document.body.classList.contains("light-mode")) {
+                icon.innerText = "☀️";
             } else {
-                lives--; 
-                livesEl.textContent = lives; 
-                messageEl.textContent = "❌ اره گیر کرد!"; 
-                messageEl.style.color = "#e74c3c";
-                
-                if (lives <= 0) { 
-                    gameOver(); 
-                }
+                icon.innerText = "🌙";
             }
         }
 
-        function gameOver() { 
-            isPlaying = false; 
-            cancelAnimationFrame(animationId); 
-            cutBtn.style.display = "none";
-            messageEl.innerHTML = `بازی تموم شد!<br>امتیاز نهایی: ${score}<br><button onclick="location.reload()" style="margin-top:15px; font-size:16px; padding:10px 20px; background-color:#3498db;">بازی دوباره</button>`; 
-            messageEl.style.color = "#f39c12"; 
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("✅ متن کپی شد!");
+            });
         }
 
-        moveSaw();
+        function generateContent() {
+            const topic = document.getElementById("topicInput").value;
+            if (topic.trim() === "") {
+                alert("لطفاً اول یه موضوع بنویس!");
+                return;
+            }
+
+            document.getElementById("loading").style.display = "block";
+            document.getElementById("titleBox").style.display = "none";
+            document.getElementById("hookBox").style.display = "none";
+            document.getElementById("captionBox").style.display = "none";
+
+            setTimeout(() => {
+                document.getElementById("loading").style.display = "none";
+                
+                document.getElementById("titleResult").innerText = `رازهای ${topic} که هیچ‌کس بهت نمی‌گه!`;
+                document.getElementById("hookResult").innerText = `اگه فکر می‌کنی ${topic} فقط یه تصمیم ساده‌ست، سخت در اشتباهی! این ویدیو رو ببین...`;
+                document.getElementById("captionResult").innerText = `همه چیز درباره ${topic} 🎯\nبرای اطلاعات بیشتر، این ویدیو رو تا آخر ببین. 👇\n#${topic.replace(/\s/g, '')} #آموزش #مشاوره`;
+
+                document.getElementById("titleBox").style.display = "block";
+                document.getElementById("hookBox").style.display = "block";
+                document.getElementById("captionBox").style.display = "block";
+            }, 1000);
+        }
     </script>
 </body>
 </html>
